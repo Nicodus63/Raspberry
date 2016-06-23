@@ -1,6 +1,9 @@
 # Raspberry
 Drivers in Python to command modules on Raspberry PI
 
+Configuration folder : <br/>
+  => Contains all source files for first configuration of Raspberry Pi
+
 Top folders contains the name of compoment used : <br/>
   => AM2320          : Humidity and Temperature sensor (I2C)              <br/>
   => BMP085          : Pressure and Temperature sensor (I2C)              <br/>

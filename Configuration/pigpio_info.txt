@@ -1,0 +1,7 @@
+All python code source files use the pigpio library.
+
+1. Install the library using pigpiod_intsall.sh (more info at http://abyz.co.uk/rpi/pigpio/download.html)
+
+2. Run the daemon. Type pigpiod in a terminal.
+
+More info at the official website http://abyz.co.uk/rpi/pigpio/index.html.
