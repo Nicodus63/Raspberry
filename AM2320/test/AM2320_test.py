@@ -14,7 +14,13 @@ Created on : 24 juin 2016
 Imports
 '''
 import pigpio
-import AM2320
+import os
+import sys
+import os
+import sys
+sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '../..'))
+ 
+from AM2320.src.AM2320 import AM2320
 
 if __name__ == "__main__":
  
@@ -23,3 +29,4 @@ if __name__ == "__main__":
    sensor = AM2320(pi)
    print(sensor._read_temperature_and_humidity()) #Prints temperature in C and humidity in %
    sensor._close()
+
