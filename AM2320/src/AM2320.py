@@ -55,7 +55,7 @@ class AM2320:
    def _get_sensor_data(self, length):
      return self.pi.i2c_read_device(self.bus_handler, length)
    
-   def _read_temperature_and_humidity(self):
+   def read_temperature_and_humidity(self):
      self._wake_sensor()
      self._send_read_command(self.HUMIDITY_HI_REG, 4) # Length = 4 : Temperature (2 Bytes) + Humidity (2 Bytes)
      # Return function code + Data_Length + Humidity (2 Bytes) + Temperature (2 Bytes) + CRC
@@ -93,6 +93,6 @@ class AM2320:
            crc >>= 1
      return crc
      
-   def _close(self):
+   def close(self):
      self.pi.i2c_close(self.bus_handler)
                  
