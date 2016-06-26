@@ -49,17 +49,18 @@ GAM_R_SEL=0xF2
 
 VIRTUALGPIO = 0
 
-ORIENTATION0=0
-ORIENTATION90=96
-ORIENTATION270=160
-ORIENTATION180=192
 
-from lcdfonts import *
+
+'''from lcdfonts import * '''
 
 class TFT144:
-   SPI_CHANNEL = 0x01
-   SPI_SPEED   = 16000000
-   SPI_MODE    = 0
+   SPI_CHANNEL    = 0x00
+   SPI_SPEED      = 16000000
+   SPI_MODE       = 0
+   ORIENTATION0   = 0
+   ORIENTATION90  = 96
+   ORIENTATION270 = 160
+   ORIENTATION180 = 192
  
    def __init__(self, pi, pin_reset, pin_dc, orientation = ORIENTATION0):
 
@@ -82,6 +83,7 @@ class TFT144:
         self.DC  = pin_dc # A0
         
         self.pi = pi
+        self.is_redboard = 1
         
         pi.set_mode(self.DC, pigpio.OUTPUT)
         pi.write(self.DC, 1)
@@ -118,14 +120,14 @@ class TFT144:
     #write command to controller
    def write_command(self, address):
        self.pi.write(self.DC, 0)
-       self.pi.spi_write(self.spi_handler, address)
+       self.pi.spi_write(self.spi_handler, [address])
 
     #write data
    def write_data(self, data):
        self.pi.write(self.DC, 1)
        if not type(data) == type([]):   # is it already a list?
             data = [data]
-       self.pi.spi_write(data)
+       self.pi.spi_write(self.spi_handler, data)
 
     #-------------------------------------------
 

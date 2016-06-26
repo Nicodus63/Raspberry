@@ -17,6 +17,7 @@ if __name__ == "__main__":
    pin_dc = 5
  
    screen = TFT144(pi, pin_reset, pin_dc)
-   TFT144.init_LCD(0)
-   TFT144.reset_LCD()
-   TFT144.draw_filled_rectangle(10, 10, 60, 60, TFT144.BLUE)
+   screen.init_LCD(0)
+   '''screen.reset_LCD()'''
+   screen.draw_filled_rectangle(10, 10, 60, 60, screen.BLUE)
+   screen.draw_circle(75, 75, 30, screen.RED)
