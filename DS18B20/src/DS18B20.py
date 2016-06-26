@@ -28,7 +28,7 @@ class DS18B20:
      os.system('modprobe w1-therm')
      ''' Path of files where value is stored '''
      device_folder = glob.glob(self.BASE_DIR + '28*')[0]
-     device_file = device_folder + '/w1_slave'
+     self.device_file = device_folder + '/w1_slave'
 
    ''' Read the file ina raw '''
    def _read_temp_raw(self):
