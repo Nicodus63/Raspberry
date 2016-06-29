@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 # array 6x8, Unicode set
 font6x8=(     # Array format 6x8 different from other 3.
