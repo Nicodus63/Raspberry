@@ -71,6 +71,12 @@ class TFT144:
    POSITIVE_GAMMA_CORRECT = 0xE0
    NEGATIVE_GAMMA_CORRECT = 0xE1
    GAM_R_SEL              = 0xF2
+   
+   ''' Fonts '''
+   fontDim = ([0], [4, 6, 1], [8, 12, 2], [6, 8, 1], [12, 16, 2], [8, 12, 1], [16, 24, 2], [8, 16, 1], [16, 32, 2])
+   # Font dimensions for fonts 1-8.  [W, H, Scale]
+   fontW = 0  # These are valid only AFTER a char was displayed
+   fontH = 0
  
    def __init__(self, pi, pin_reset, pin_dc, pin_ce, is_redboard, orientation = ORIENTATION0):
      ''' Color defines '''
@@ -298,11 +304,6 @@ class TFT144:
         self.draw_dot(x0 - y, y0 + x, color)
         self.draw_dot(x0 + y, y0 - x, color)
         self.draw_dot(x0 - y, y0 - x, color)
-
-     fontDim = ([0], [4, 6, 1], [8, 12, 2], [6, 8, 1], [12, 16, 2], [8, 12, 1], [16, 24, 2], [8, 16, 1], [16, 32, 2])
-     # Font dimensions for fonts 1-8.  [W, H, Scale]
-     fontW = 0  # These are valid only AFTER a char was displayed
-     fontH = 0
 
     # writes a character in graphic coordinates x,y, with
     # foreground and background colours
