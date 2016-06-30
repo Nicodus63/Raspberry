@@ -17,7 +17,7 @@ import pigpio
 
 class PCF8591:
    ''' Constants '''
-   I2C_ADDRESS   = 0x77
+   I2C_ADDRESS   = 0x48
    I2C_BUS       = 0x01
    
    ADC_CH_0      = 0x00
@@ -34,7 +34,8 @@ class PCF8591:
    
    ANALOG_OUTPUT_FLAG = 0x01
    
-   QUANTUM = 3.3 / 256 # VREF = 3.3V - 8 bits converter
+   VREF    = 3.3
+   QUANTUM = VREF / 256 # VREF = 3.3V - 8 bits converter
    
    def __init__(self, pi):
      ''' Open I2C '''
@@ -43,19 +44,30 @@ class PCF8591:
      
    ''' Construct the control byte '''
    def _control_byte(self, channel, auto_increment, mode, analog_output):
-     return ((analog_output << 7) + (mode << 5) + (auto_increment << 3) + channel)
+     return ((analog_output << 6) + (mode << 4) + (auto_increment << 2) + channel)
     
-   def read_ADC(self, read_all, mode, channel):
+   def read_ADC(self, read_all, mode, channel, output_en):
      if read_all :
-       data = self.pi.i2c_read_byte_data(self.i2c_handler, self._control_byte(self.ADC_CH_0, self.AUTO_INCR_FLAG, mode, 0))
+       read_number = 5
+       count, data = self.pi.i2c_read_i2c_block_data(self.i2c_handler, self._control_byte(self.ADC_CH_0, self.AUTO_INCR_FLAG, mode, output_en), read_number)
      else:
-       data = self.pi.i2c_read_byte_data(self.i2c_handler, self._control_byte(channel, 0, mode, 0))
+       read_number = 2
+       count, data = self.pi.i2c_read_i2c_block_data(self.i2c_handler, self._control_byte(channel, 0, mode, output_en), read_number)
        
-     voltage = []     
-     for i in data:
-       voltage[i] = data[i] * self.QUANTUM
+     voltage = []
+     for i in range(0, read_number):
+       voltage.append(data[i] * self.QUANTUM)
        
-     return voltage
+     ''' Remove first value according to specifications '''
+     return voltage[1:]
+     
+   def write_ADC(self, tension):
+     dac_number = tension // self.QUANTUM
+     if dac_number > 255:
+       dac_number = 255
+
+     command = self._control_byte(0, 0, 0, self.ANALOG_OUTPUT_FLAG)
+     self.pi.i2c_write_device(self.i2c_handler, [command, int(dac_number)])
     
    def i2c_close(self):
      self.pi.i2c_close(self.i2c_handler)
