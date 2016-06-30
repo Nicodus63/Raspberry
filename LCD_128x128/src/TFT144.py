@@ -112,6 +112,7 @@ class TFT144:
      self.spi_handler = pi.spi_open(pin_ce, self.SPI_SPEED, self.SPI_MODE)
     
      sleep(0.5)
+     self.init_LCD(orientation)
 
    # function to pack 3 bytes of rgb value in 2 byte integer, R,G and B 0-255
    def colour565(self, r, g, b):
@@ -167,7 +168,7 @@ class TFT144:
      self.write_data([0x08, 0x08])
      
      self.write_command(self.DISPLAY_INVERSION)
-     self.write_data(0x00)
+     self.write_data(0x01)
      
      self.write_command(self.POWER_CONTROL1)
      self.write_data([0x0a, 0x02])
