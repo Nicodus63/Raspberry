@@ -197,17 +197,17 @@ class LCD_16x2:
         self.pi.write(self._rs, char_mode)
         # Write upper 4 bits.
         self.pi.write(self._d4, (value >> 4) & 1)
-        self.pi.write(self._d4, (value >> 5) & 1)
-        self.pi.write(self._d4, (value >> 6) & 1)
-        self.pi.write(self._d4, (value >> 7) & 1)
+        self.pi.write(self._d5, (value >> 5) & 1)
+        self.pi.write(self._d6, (value >> 6) & 1)
+        self.pi.write(self._d7, (value >> 7) & 1)
 
         self._pulse_enable()
         
         # Write lower 4 bits.
         self.pi.write(self._d4, value & 1)
-        self.pi.write(self._d4, (value >> 1) & 1)
-        self.pi.write(self._d4, (value >> 2) & 1)
-        self.pi.write(self._d4, (value >> 3) & 1)
+        self.pi.write(self._d5, (value >> 1) & 1)
+        self.pi.write(self._d6, (value >> 2) & 1)
+        self.pi.write(self._d7, (value >> 3) & 1)
 
         self._pulse_enable()
 
