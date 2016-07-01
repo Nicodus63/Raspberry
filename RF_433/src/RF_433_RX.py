@@ -184,6 +184,6 @@ class RF_433_RX:
       Cancels the wireless code receiver.
       """
       if self._cb is not None:
-         self.pi.set_glitch_filter(self.gpio, 0) # Remove glitch filter.
+         self.pi.set_glitch_filter(self.data_pin, 0) # Remove glitch filter.
          self._cb.cancel()
          self._cb = None

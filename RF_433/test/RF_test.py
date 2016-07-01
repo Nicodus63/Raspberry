@@ -6,7 +6,7 @@ Created on 1 juil. 2016
 @author     : ARVEUF Nicolas
 @Version    : 1.0
 @requires   : Pigpio
-@note       : Test RF 433 Mhz Reception module 
+@note       : Test RF 433 Mhz Reception and Transmission module 
 '''
 
 '''
@@ -23,8 +23,8 @@ from RF_433.src.RF_433_TX import RF_433_TX
 
 if __name__ == "__main__":
 
-   PIN_RX=22
-   PIN_TX=17
+   PIN_RX = 22
+   PIN_TX = 17
 
    # define optional callback for received codes.
 
@@ -34,9 +34,22 @@ if __name__ == "__main__":
 
    pi = pigpio.pi() # Connect to local Pi.
 
-   rx = RF_433_RX(pi, PIN_RX, callback=rx_callback)
-
+   rx = RF_433_RX(pi, PIN_RX, callback=rx_callback, min_bits=8, max_bits=32, glitch=100)
    args = len(sys.argv)
+
+   if args > 1:
+
+      # If the script has arguments they are assumed to codes
+      # to be transmitted.
+
+      tx = RF_433_TX(pi, PIN_TX, repeats=6, bits=24, gap=5000, t0=150, t1=500)
+
+      for i in range(args-1):
+         print("sending {}".format(sys.argv[i+1]))
+         tx.send(int(sys.argv[i+1]))
+         time.sleep(1)
+
+      tx.cancel() # Cancel the transmitter.
 
    time.sleep(60)
 
